@@ -9,22 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableJpaAuditing
 public class JpaConfiguration {
 
     @Bean
     public AuditorAware<String> auditorAware() {
         return () -> {
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null) {
-                return "FULLSTOP";
-            } else {
-                final String userName = authentication.getName();
-
-                Assert.hasText(userName, "Username should never by empty");
-
-                return userName;
-            }
+            return authentication == null ?"anonymousUser": authentication.getName();
         };
     }
 }
