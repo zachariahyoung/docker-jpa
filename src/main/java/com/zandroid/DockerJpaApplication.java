@@ -5,6 +5,7 @@ import com.zandroid.volume.VolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class DockerJpaApplication {
 
 	@Autowired
