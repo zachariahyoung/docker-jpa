@@ -1,4 +1,4 @@
-package com.zandroid.volume;
+package com.zandroid.config;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +18,17 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Data
 @EntityListeners(value=AuditingEntityListener.class)
-public abstract class AuditEntity {
+public abstract class AuditEntity implements Identifiable<Long> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private final  Long id;
+
+    protected AuditEntity() {
+        this.id = null;
+    }
+
 
     /**
      * createTimestamp

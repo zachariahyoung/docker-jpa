@@ -1,37 +1,41 @@
 package com.zandroid;
 
-import com.zandroid.volume.Volume;
-import com.zandroid.volume.VolumeRepository;
+import com.zandroid.appointment.Appointment;
+import com.zandroid.appointment.AppointmentRepository;
+import com.zandroid.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import javax.annotation.PostConstruct;
 
+import static org.hibernate.validator.internal.util.CollectionHelper.asSet;
+
 @SpringBootApplication
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 public class DockerJpaApplication {
 
-	@Autowired
-	VolumeRepository volumeRepository;
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(DockerJpaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DockerJpaApplication.class, args);
+    }
 
-	public @PostConstruct
-	void init() {
+    public
+    @PostConstruct
+    void init() {
 
-		volumeRepository.save(new Volume("Gallon","Open",2,"Milk"));
+        Product product = new Product();
+        product.setDescription("Truck");
+        product.setModel("Chevy");
+
+
+        Appointment appointment = new Appointment();
+        appointment.setTrackNumber("test");
+        appointment.setProducts(asSet(product));
+
+//        appointmentRepository.save(appointment);
 
 //		/**
 //		 * Due to method-level protections on {@link example.company.ItemRepository}, the security context must be loaded
@@ -43,5 +47,5 @@ public class DockerJpaApplication {
 //		itemRepository.save(new Item("the one ring"));
 //
 //		SecurityContextHolder.clearContext();
-	}
+    }
 }

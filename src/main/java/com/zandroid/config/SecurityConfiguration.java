@@ -45,9 +45,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.httpBasic().and().authorizeRequests().//
-                antMatchers(HttpMethod.POST, "/volume").hasRole("ADMIN").//
-                antMatchers(HttpMethod.PUT, "/volume/**").hasRole("ADMIN").//
-                antMatchers(HttpMethod.PATCH, "/volume/**").hasRole("ADMIN").and().//
+                antMatchers(HttpMethod.POST, "/appointment").hasRole("ADMIN").//
+                antMatchers(HttpMethod.PUT, "/appointment/**").hasRole("ADMIN").//
+                antMatchers(HttpMethod.PATCH, "/appointment/**").hasRole("ADMIN").and().//
                 csrf().disable();
 
         http.sessionManagement()
