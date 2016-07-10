@@ -134,7 +134,7 @@
 						<configuration>
 							<backend>html</backend>
 							<doctype>book</doctype>
-							<sourceDocumentName>index.adoc</sourceDocumentName>
+							<!--<sourceDocumentName>index.adoc</sourceDocumentName>-->
 							<attributes>
 								<snippets>${snippetsDirectory}</snippets>
 							</attributes>

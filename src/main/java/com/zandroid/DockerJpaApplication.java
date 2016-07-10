@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
 
-import static org.hibernate.validator.internal.util.CollectionHelper.asSet;
+import static java.util.Arrays.asList;
 
 @SpringBootApplication
 //@EnableDiscoveryClient
@@ -33,7 +33,7 @@ public class DockerJpaApplication {
 
         Appointment appointment = new Appointment();
         appointment.setTrackNumber("test");
-//        appointment.setProducts(asSet(product));
+        appointment.setProducts(asList(product));
 
 //        appointmentRepository.save(appointment);
 
