@@ -33,7 +33,7 @@ public class DockerJpaApplication {
 
         Appointment appointment = new Appointment();
         appointment.setTrackNumber("test");
-        appointment.setProducts(asSet(product));
+//        appointment.setProducts(asSet(product));
 
 //        appointmentRepository.save(appointment);
 
