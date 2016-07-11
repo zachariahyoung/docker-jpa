@@ -1,42 +1,31 @@
 package com.zandroid;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.restassured.builder.RequestSpecBuilder;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.specification.RequestSpecification;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.http.ContentType.*;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GettingStartedDocumentation {
 
     @Rule
@@ -45,32 +34,38 @@ public class GettingStartedDocumentation {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mockMvc;
+    private RequestSpecification documentationSpec;
 
     @Before
     public void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
-                .apply(documentationConfiguration(this.restDocumentation))
-                .alwaysDo(document("{method-name}/{step}/",
-                        preprocessResponse(prettyPrint())))
+
+        this.documentationSpec = new RequestSpecBuilder()
+                .addFilter(documentationConfiguration(restDocumentation))
+                .addFilter(document("{method-name}/{step}"))
                 .build();
     }
 
     @Test
     public void index() throws Exception {
-        this.mockMvc.perform(get("/").accept(MediaTypes.HAL_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("_links.products", is(notNullValue())))
-                .andExpect(jsonPath("_links.appointments", is(notNullValue())));
+//        this.mockMvc.perform(get("/").accept(MediaTypes.HAL_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("_links.products", is(notNullValue())))
+//                .andExpect(jsonPath("_links.appointments", is(notNullValue())));
+
+        given(this.documentationSpec)
+                .accept(JSON)
+        .when()
+                .get("/")
+        .then()
+                .assertThat().statusCode(is(200));
+
+
     }
 
 
     @Test
-    public void creatingAAppointment() throws JsonProcessingException, Exception {
-        String noteLocation = createAppointment();
+    public void creatingAAppointment() throws Exception {
+//        String noteLocation = createAppointment();
 //        MvcResult note = getNote(noteLocation);
 //
 //        String tagLocation = createTag();
@@ -85,17 +80,26 @@ public class GettingStartedDocumentation {
     }
 
     String createAppointment() throws Exception {
-        Map<String, String> note = new HashMap<String, String>();
+        Map<String, String> note = new HashMap<>();
         note.put("trackNumber", "XYZ123");
 
-        String noteLocation = this.mockMvc
-                .perform(
-                        post("/appointments").contentType(MediaTypes.HAL_JSON).content(
-                                objectMapper.writeValueAsString(note)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", notNullValue()))
-                .andReturn().getResponse().getHeader("Location");
-        return noteLocation;
+//        String noteLocation = this.mockMvc
+//                .perform(
+//                        post("/appointments").contentType(MediaTypes.HAL_JSON).content(
+//                                objectMapper.writeValueAsString(note)))
+//                .andExpect(status().isCreated())
+//                .andExpect(header().string("Location", notNullValue()))
+//                .andReturn().getResponse().getHeader("Location");
+//        return noteLocation;
+
+        given(this.documentationSpec)
+                .accept(JSON)
+          .when()
+                .post("/appointments")
+          .then()
+                .statusCode(is(200));
+
+        return null;
     }
 //
 //    MvcResult getNote(String noteLocation) throws Exception {
