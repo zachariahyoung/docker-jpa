@@ -1,0 +1,6 @@
+---
+applications:
+- name: docker-jpa
+  memory: 1G
+  random-route: true
+  path: target/docker-jpa.jar
