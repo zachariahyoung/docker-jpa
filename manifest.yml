@@ -4,3 +4,4 @@ applications:
   memory: 1G
   random-route: true
   path: target/docker-jpa.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
