@@ -45,22 +45,22 @@ public class GettingStartedDocumentation {
                 .build();
     }
 
-    @Test
-    public void index() throws Exception {
-//        this.mockMvc.perform(get("/").accept(MediaTypes.HAL_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("_links.products", is(notNullValue())))
-//                .andExpect(jsonPath("_links.appointments", is(notNullValue())));
-
-        given(this.documentationSpec)
-                .accept(JSON)
-        .when()
-                .get("/")
-        .then()
-                .assertThat().statusCode(is(200));
-
-
-    }
+//    @Test
+//    public void index() throws Exception {
+////        this.mockMvc.perform(get("/").accept(MediaTypes.HAL_JSON))
+////                .andExpect(status().isOk())
+////                .andExpect(jsonPath("_links.products", is(notNullValue())))
+////                .andExpect(jsonPath("_links.appointments", is(notNullValue())));
+//
+//        given(this.documentationSpec)
+//                .accept(JSON)
+//        .when()
+//                .get("/")
+//        .then()
+//                .assertThat().statusCode(is(200));
+//
+//
+//    }
 
 
     @Test
